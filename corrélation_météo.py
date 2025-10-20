@@ -26,5 +26,5 @@ np_wpdt = np.array(wpdt)
 np_pres = np.array(pres)
 np_tsun = np.array(tsun)
 
-corr_matrix = df[["tsun","snow","tmoy"]].corr()
+corr_matrix = df[["tsun","snow","tavg"]].corr()
 print(corr_matrix)
