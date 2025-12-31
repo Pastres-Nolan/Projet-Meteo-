@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.fft import fft, fftfreq
+
 
 # Chargement des données
 df = pd.read_csv("strasbourg_entzheim.csv", sep=';')
 df['time'] = pd.to_datetime(df['time'], dayfirst=True)
 
-start_date = pd.to_datetime("01/01/1950", dayfirst=True)
+start_date = pd.to_datetime("01/01/2000", dayfirst=True)
 end_date = pd.to_datetime("31/12/2024", dayfirst=True)
 
 mask = (df['time'] >= start_date) & (df['time'] <= end_date)
@@ -18,11 +18,11 @@ variables = {
     "Température moyenne (tavg)": df_filtered['tavg'],
     "Température minimale (tmin)": df_filtered['tmin'],
     "Température maximale (tmax)": df_filtered['tmax'],
-    "Précipitations (prcp)": df_filtered['prcp'].fillna(0),
-    "Neige (snow)": df_filtered['snow'].fillna(0),
+    "Précipitations (prcp)": df_filtered['prcp'],
+    "Neige (snow)": df_filtered['snow'],
     "Vitesse du vent (wspd)": df_filtered['wspd'],
     "Rafales (wpgt)": df_filtered['wpgt'],
-    "Pression (pres)": df_filtered['pres'].fillna(0),
+    "Pression (pres)": df_filtered['pres'],
     "Ensoleillement (tsun)": df_filtered['tsun']
 }
 
@@ -32,26 +32,29 @@ end_freq = 0.006
 
 for title, serie in variables.items():
 
-    signal = serie.dropna().values
+    signal = serie.dropna()
     N = len(signal)
 
     # FFT bilatérale
-    Y = fft(signal)
-    spectrum = np.abs(Y) / N
+    Y = np.fft.fft(signal)
+    spectrum = np.abs(np.abs(Y) / N)
 
     # Fréquences associées
-    freqs = fftfreq(N, d=1/sampling_frequency)
+    freqs = np.abs(np.fft.fftfreq(N, d=1/sampling_frequency)) #pour bilatéral enlever le np.abs
 
     # Sélection bande [-end_freq ; +end_freq]
     mask = np.abs(freqs) <= end_freq
     freqs_plot = freqs[mask]
     spectrum_plot = spectrum[mask]
-    
-    plt.figure(figsize=(14,7))
+
+    plt.figure(figsize=(10,5))
     plt.plot(freqs_plot, spectrum_plot)
-    plt.title("Spectre bilatéral - " + title)
-    plt.xlabel("Fréquence (cycles/jour)")
+    plt.title(title)
+    plt.xlabel("Fréquence")
     plt.ylabel("Amplitude")
     plt.grid()
     plt.tight_layout()
+
+
     plt.show()
+

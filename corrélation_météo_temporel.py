@@ -6,8 +6,8 @@ df = pd.read_csv("strasbourg_entzheim.csv", sep=';')
 df['time'] = pd.to_datetime(df['time'], dayfirst=True)
 
 # Filtrage par date
-start_date = pd.to_datetime("01/01/2010", dayfirst=True)
-end_date = pd.to_datetime("31/12/2024", dayfirst=True)
+start_date = pd.to_datetime("01/01/1980", dayfirst=True)
+end_date = pd.to_datetime("31/12/1985", dayfirst=True)
 
 mask = (df['time'] >= start_date) & (df['time'] <= end_date)
 df_filtered = df.loc[mask]
@@ -17,17 +17,17 @@ variables = {
     "Température moyenne (tavg)": df_filtered['tavg'],
     "Température minimale (tmin)": df_filtered['tmin'],
     "Température maximale (tmax)": df_filtered['tmax'],
-    "Précipitations (prcp)": df_filtered['prcp'].fillna(0),
-    "Neige (snow)": df_filtered['snow'].fillna(0),
+    "Précipitations (prcp)": df_filtered['prcp'],
+    "Neige (snow)": df_filtered['snow'],
     "Vitesse du vent (wspd)": df_filtered['wspd'],
     "Rafales (wpgt)": df_filtered['wpgt'],
-    "Pression (pres)": df_filtered['pres'].fillna(0),
+    "Pression (pres)": df_filtered['pres'],
     "Ensoleillement (tsun)": df_filtered['tsun']
 }
 
 time = df_filtered['time']
 
-# Boucle pour afficher un graphique à la fois
+#Affichage
 for title, data in variables.items():
     plt.figure(figsize=(10, 5))
     plt.plot(time, data)
