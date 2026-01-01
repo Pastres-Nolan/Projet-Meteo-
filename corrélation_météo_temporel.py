@@ -6,8 +6,8 @@ df = pd.read_csv("strasbourg_entzheim.csv", sep=';')
 df['time'] = pd.to_datetime(df['time'], dayfirst=True)
 
 # Filtrage par date
-start_date = pd.to_datetime("01/01/1980", dayfirst=True)
-end_date = pd.to_datetime("31/12/1985", dayfirst=True)
+start_date = pd.to_datetime("01/01/1950", dayfirst=True)
+end_date = pd.to_datetime("31/12/2024", dayfirst=True)
 
 mask = (df['time'] >= start_date) & (df['time'] <= end_date)
 df_filtered = df.loc[mask]
@@ -25,11 +25,11 @@ variables = {
     "Ensoleillement (tsun)": df_filtered['tsun']
 }
 
-time = df_filtered['time']
+time = df_filtered['time'] 
 
 #Affichage
 for title, data in variables.items():
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(14,7))
     plt.plot(time, data)
     plt.title(title)
     plt.xlabel("Temps")
