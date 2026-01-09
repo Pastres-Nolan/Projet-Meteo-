@@ -21,4 +21,4 @@ L’analyse est réalisée à l’aide de **séries temporelles** et **d’analy
 - `corrélation_météo_temporel.py` : création des graphiques temporelles
 - `corrélation_météo_fréquentiel.py` : création des spectres fréquentiels
 - `environment.yml` : fichier pour créer l’environnement Conda
-- `requirements.txt` : fichier pour créer un environnement virtuel (venv).
+- `requirements.txt` : fichier pour créer un environnement virtuel (venv)
